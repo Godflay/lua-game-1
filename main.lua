@@ -9,6 +9,13 @@ function love.load()
 
     --set font size, can take in extra params to actually change the font. look into documentation
     gameFont = love.graphics.newFont(40)
+
+    sprites = {}
+    sprites.sky = love.graphics.newImage('assets/sky.png')
+    sprites.target = love.graphics.newImage('assets/target.png')
+    sprites.crosshairs = love.graphics.newImage('assets/crosshairs.png')
+
+    love.mouse.setVisible(false)
 end
 
 function love.update(dt)
@@ -21,14 +28,16 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.draw(sprites.sky, 0, 0)
+
     --setColor uses 0 - 1 scale instead of 255, so if using 255 simply divide by 255
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.circle("fill", target.x, target.y, target.radius)
-    
     love.graphics.setColor(1, 1, 1)
     love.graphics.setFont(gameFont)
     love.graphics.print(score, 0, 0)
     love.graphics.print(math.ceil(timer), 300, 0)
+
+    love.graphics.draw(sprites.target, target.x - target.radius, target.y - target.radius)
+    love.graphics.draw(sprites.crosshairs, love.mouse.getX()-20, love.mouse.getY()-20)
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
