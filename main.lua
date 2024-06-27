@@ -5,17 +5,20 @@ function love.load()
     target.radius = 50
 
     score = 0
-    timer = 0
+    timer = 15
 
     --set font size, can take in extra params to actually change the font. look into documentation
     gameFont = love.graphics.newFont(40)
 end
 
 function love.update(dt)
-
+    if timer > 0 then
+        timer = timer - dt 
+    end
+    if timer < 0 then
+        timer = 0 
+    end
 end
-
- 
 
 function love.draw()
     --setColor uses 0 - 1 scale instead of 255, so if using 255 simply divide by 255
@@ -25,6 +28,7 @@ function love.draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.setFont(gameFont)
     love.graphics.print(score, 0, 0)
+    love.graphics.print(math.ceil(timer), 300, 0)
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
@@ -32,6 +36,7 @@ function love.mousepressed(x, y, button, istouch, presses)
         local mouseToTarget = distanceBetween(x, y, target.x, target.y)
         if mouseToTarget < target.radius then
             score = score + 1
+            timer = timer + 1
             target.x = math.random(target.radius, love.graphics.getWidth() - target.radius)
             target.y = math.random(target.radius, love.graphics.getHeight() - target.radius)
         end
