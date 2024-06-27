@@ -35,9 +35,13 @@ function love.draw()
     --setColor uses 0 - 1 scale instead of 255, so if using 255 simply divide by 255
     love.graphics.setColor(1, 1, 1)
     love.graphics.setFont(gameFont)
-    love.graphics.print(score, 0, 0)
-    love.graphics.print(math.ceil(timer), 300, 0)
+    -- .. combines left and right
+    love.graphics.print("Score: " .. score, 5, 5)
+    love.graphics.print("Time: " .. math.ceil(timer), 300, 5)
 
+    if gameState == 1 then
+        love.graphics.printf("Click anywhere to being!", 0, 250, love.graphics.getWidth(), "center")
+    end
 
     if gameState == 2 then
         love.graphics.draw(sprites.target, target.x - target.radius, target.y - target.radius)
@@ -50,7 +54,7 @@ function love.mousepressed(x, y, button, istouch, presses)
         local mouseToTarget = distanceBetween(x, y, target.x, target.y)
         if mouseToTarget < target.radius then
             score = score + 1
-            timer = timer + 1
+            timer = timer + 0.25
             target.x = math.random(target.radius, love.graphics.getWidth() - target.radius)
             target.y = math.random(target.radius, love.graphics.getHeight() - target.radius)
         end
